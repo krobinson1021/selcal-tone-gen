@@ -1,0 +1,49 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Codename One
+codenameone_settings.properties
+native/
+target/
+lib/impl/
+res/Strings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+*.log
+*.ipr
+*.iws
+/.idea/workspace.xml
+/.idea/libraries
+/.idea/modules.xml
+/.idea/*.iml
+/.idea/vcs.xml
+/.idea/dictionaries
+/.idea/tasks.xml
+.idea_modules/
+*.ipr
+*.iws
+.idea/
+*.iml
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Eclipse
+.classpath
+.project
+
+# Miscellaneous
+.DS_STORE
+*.iml
