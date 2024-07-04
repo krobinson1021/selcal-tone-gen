@@ -12,6 +12,7 @@
 		CFEEBA6F2C3763C200F3B4F6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CFEEBA6D2C3763C200F3B4F6 /* README.md */; };
 		CFEEBA772C37643200F3B4F6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEEBA742C37643200F3B4F6 /* HomeViewController.swift */; };
 		CFEEBA782C37643200F3B4F6 /* SelcalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEEBA752C37643200F3B4F6 /* SelcalViewController.swift */; };
+		CFEEBA7A2C37694B00F3B4F6 /* UI+Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEEBA792C37694B00F3B4F6 /* UI+Styling.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		CFEEBA6D2C3763C200F3B4F6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CFEEBA742C37643200F3B4F6 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CFEEBA752C37643200F3B4F6 /* SelcalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelcalViewController.swift; sourceTree = "<group>"; };
+		CFEEBA792C37694B00F3B4F6 /* UI+Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI+Styling.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 		CF3719CE2C37598A00DF8534 = {
 			isa = PBXGroup;
 			children = (
+				CFEEBA7B2C37694E00F3B4F6 /* Utilities */,
 				CFEEBA762C37643200F3B4F6 /* Views */,
 				CFEEBA6C2C3763C200F3B4F6 /* Info.plist */,
 				CFEEBA6D2C3763C200F3B4F6 /* README.md */,
@@ -62,6 +65,14 @@
 				CFEEBA752C37643200F3B4F6 /* SelcalViewController.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CFEEBA7B2C37694E00F3B4F6 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CFEEBA792C37694B00F3B4F6 /* UI+Styling.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +148,7 @@
 				CFEEBA782C37643200F3B4F6 /* SelcalViewController.swift in Sources */,
 				CFEEBA6A2C3763B800F3B4F6 /* AppDelegate.swift in Sources */,
 				CFEEBA6B2C3763B800F3B4F6 /* SceneDelegate.swift in Sources */,
+				CFEEBA7A2C37694B00F3B4F6 /* UI+Styling.swift in Sources */,
 				CFEEBA772C37643200F3B4F6 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

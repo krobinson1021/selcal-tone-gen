@@ -17,21 +17,20 @@ class HomeViewController: UIViewController {
         
         view.backgroundColor = .white
 
-        // Initialize and configure SELCAL button
+        // SELCAL
         selcalButton = UIButton(type: .system)
-        configureButton(selcalButton, title: "SELCAL", color: .black)
+        UIButton.configureButton(selcalButton, title: "SELCAL", color: .black)
         selcalButton.addTarget(self, action: #selector(selcalButtonPressed), for: .touchUpInside)
         selcalButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(selcalButton)
         
-        // Initialize and configure SELCAL32 button
+        // SELCAL32
         selcal32Button = UIButton(type: .system)
-        configureButton(selcal32Button, title: "SELCAL32", color: .systemGray)
+        UIButton.configureButton(selcal32Button, title: "SELCAL32", color: .systemGray)
         selcal32Button.isEnabled = false // Disable the button
         selcal32Button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(selcal32Button)
         
-        // Add constraints
         NSLayoutConstraint.activate([
             // Center SELCAL button horizontally and vertically
             selcalButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -46,16 +45,5 @@ class HomeViewController: UIViewController {
     @objc func selcalButtonPressed() {
         let secondVC = SelcalViewController()
         navigationController?.pushViewController(secondVC, animated: true)
-    }
-    
-    private func configureButton(_ button: UIButton, title: String, color: UIColor) {
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = title
-        configuration.baseBackgroundColor = color
-        configuration.baseForegroundColor = .white
-        configuration.cornerStyle = .medium
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
-        
-        button.configuration = configuration
     }
 }
