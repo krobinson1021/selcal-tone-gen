@@ -114,7 +114,7 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func playPairs(_ pairs: [[String]]) {
-        let delay = 1.0
+        let delay = 0.2
         
         for (index, pair) in pairs.enumerated() {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay * Double(index)) {
