@@ -65,16 +65,19 @@ class SelcalModel {
     }
     
     private func playPairs(_ pairs: [[String]]) {
-        let delay = 0.7
+        let initialDelay = 0.3
+        let toneDuration = 1.0
+        let silenceDuration = 0.2
         audioEngine = AVAudioEngine()
         
         for (index, pair) in pairs.enumerated() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay * Double(index)) {
+            let delay = initialDelay + (toneDuration + silenceDuration) * Double(index)
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.playPair(pair)
             }
         }
     }
-    
+
     private func playPair(_ pair: [String]) {
         guard let audioEngine = audioEngine else { return }
         
