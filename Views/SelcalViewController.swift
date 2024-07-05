@@ -6,61 +6,36 @@
 //
 
 import UIKit
-import AVFoundation
 
 class SelcalViewController: UIViewController, UITextFieldDelegate {
-
-    private let textField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "Enter aircraft identifier..."
-        tf.borderStyle = .roundedRect
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    }()
     
-    private let playButton: UIButton = {
-        let button = UIButton(type: .system)
-        UIButton.configureButton(button, title: "PLAY", color: .black)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let selcalView = SelcalView()
+    private let selcalModel = SelcalModel()
     
-    private var audioPlayers: [AVAudioPlayer] = []
+    override func loadView() {
+        view = selcalView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
-        textField.delegate = self
+        selcalView.textField.delegate = self
         
-        view.addSubview(textField)
-        view.addSubview(playButton)
-        
-        setupConstraints()
-        
-        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        
-        playButton.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
-    }
-    
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            // Center the text field horizontally
-            textField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-            textField.widthAnchor.constraint(equalToConstant: 250),
-            
-            // Position the play button below the text field
-            playButton.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 20),
-            playButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+        selcalView.textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        selcalView.verifyButton.addTarget(self, action: #selector(verifyButtonPressed), for: .touchUpInside)
+        selcalView.playButton.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
+        selcalView.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        selcalView.resetButton.addTarget(self, action: #selector(resetButtonPressed), for: .touchUpInside)
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else { return }
         
-        // Format the text to uppercase with hyphens
-        let formattedText = formatText(text)
+        // Limit to 4 letters plus a hyphen
+        let limitedText = String(text.filter { $0.isLetter || $0 == "-" }.prefix(5))
+        
+        // Format the text to uppercase with a hyphen
+        let formattedText = selcalModel.formatText(limitedText)
         
         // Update the text field with the formatted text
         textField.text = formattedText
@@ -69,83 +44,67 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
         if let newPosition = textField.position(from: textField.beginningOfDocument, offset: formattedText.count) {
             textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
         }
-    }
-    
-    private func formatText(_ text: String) -> String {
-        let uppercaseText = text.uppercased().filter { $0.isLetter }
-        var formattedText = ""
-        for (index, character) in uppercaseText.enumerated() {
-            if index % 2 == 0 && index != 0 {
-                formattedText += "-"
-            }
-            formattedText += String(character)
-        }
-        return formattedText
+        
+        // Disable play button if text changes
+        selcalView.playButton.isEnabled = false
+        UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .systemGray)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // Allow only letters
-        let allowedCharacterSet = CharacterSet.letters
+        // Allow only letters and hyphen
+        let allowedCharacterSet = CharacterSet.letters.union(CharacterSet(charactersIn: "-"))
         let replacementStringCharacterSet = CharacterSet(charactersIn: string)
-        return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
+        let newLength = (textField.text?.count ?? 0) - range.length + string.count
+        return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet) && newLength <= 5
+    }
+    
+    @objc private func verifyButtonPressed() {
+        let inputText = selcalView.textField.text ?? ""
+        let letters = inputText.replacingOccurrences(of: "-", with: "")
+        if (letters.count == 0) {
+            return
+        }
+        
+        let isValid = selcalModel.verifyInput(letters)
+        if isValid {
+            selcalView.verificationStatusLabel.text = "✅"
+            selcalView.verificationStatusLabel.textColor = .green
+            selcalView.playButton.isEnabled = true
+            UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .black)
+        } else {
+            selcalView.verificationStatusLabel.text = "❌"
+            selcalView.verificationStatusLabel.textColor = .red
+            selcalView.playButton.isEnabled = false
+            UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .systemGray)
+        }
     }
     
     @objc private func playButtonPressed() {
-        guard let text = textField.text else { return }
-        
-        // Split the text into pairs of characters
-        let pairs = splitIntoPairs(text)
+        let inputText = selcalView.textField.text ?? ""
+        guard !inputText.isEmpty else {
+            displayAlert(title: "Invalid Input", message: "Please enter a valid aircraft identifier.")
+            return
+        }
         
         // Play the pairs with a delay between each pair
-        playPairs(pairs)
+        selcalModel.playPairs(inputText)
     }
     
-    private func splitIntoPairs(_ text: String) -> [[String]] {
-        let characters = Array(text.replacingOccurrences(of: "-", with: ""))
-        var pairs: [[String]] = []
-        
-        for i in stride(from: 0, to: characters.count, by: 2) {
-            let first = String(characters[i])
-            let second = i + 1 < characters.count ? String(characters[i + 1]) : nil
-            pairs.append([first, second].compactMap { $0 })
-        }
-        
-        return pairs
+    @objc private func backButtonPressed() {
+        navigationController?.popViewController(animated: true)
     }
     
-    private func playPairs(_ pairs: [[String]]) {
-        let delay = 0.2
-        
-        for (index, pair) in pairs.enumerated() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay * Double(index)) {
-                self.playPair(pair)
-            }
-        }
+    @objc private func resetButtonPressed() {
+        selcalView.textField.text = ""
+        selcalView.verificationStatusLabel.text = ""
+        selcalView.verificationStatusLabel.textColor = .red
+        selcalView.playButton.isEnabled = false
+        UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .systemGray)
     }
     
-    private func playPair(_ pair: [String]) {
-        audioPlayers.removeAll()
-        
-        for letter in pair {
-            if let player = createAudioPlayer(for: letter) {
-                audioPlayers.append(player)
-                player.play()
-            }
-        }
-    }
-    
-    private func createAudioPlayer(for letter: String) -> AVAudioPlayer? {
-        guard let url = Bundle.main.url(forResource: letter, withExtension: "mp3") else {
-            print("Could not find file: \(letter).mp3")
-            return nil
-        }
-        
-        do {
-            let player = try AVAudioPlayer(contentsOf: url)
-            return player
-        } catch {
-            print("Could not create audio player for \(letter): \(error)")
-            return nil
-        }
+    private func displayAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }

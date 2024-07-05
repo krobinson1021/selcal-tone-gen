@@ -30,6 +30,8 @@
 		CFEEBB5C2C3840D800F3B4F6 /* S.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFEEBB4C2C3840D800F3B4F6 /* S.mp3 */; };
 		CFEEBB5D2C3840D800F3B4F6 /* A.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFEEBB4D2C3840D800F3B4F6 /* A.mp3 */; };
 		CFEEBB5E2C3840D800F3B4F6 /* H.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CFEEBB4E2C3840D800F3B4F6 /* H.mp3 */; };
+		CFEEBB602C38417800F3B4F6 /* SelcalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEEBB5F2C38417800F3B4F6 /* SelcalView.swift */; };
+		CFEEBB632C38419500F3B4F6 /* SelcalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEEBB622C38419500F3B4F6 /* SelcalModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		CFEEBB4C2C3840D800F3B4F6 /* S.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = S.mp3; sourceTree = "<group>"; };
 		CFEEBB4D2C3840D800F3B4F6 /* A.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = A.mp3; sourceTree = "<group>"; };
 		CFEEBB4E2C3840D800F3B4F6 /* H.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = H.mp3; sourceTree = "<group>"; };
+		CFEEBB5F2C38417800F3B4F6 /* SelcalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelcalView.swift; sourceTree = "<group>"; };
+		CFEEBB622C38419500F3B4F6 /* SelcalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelcalModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,7 @@
 		CF3719CE2C37598A00DF8534 = {
 			isa = PBXGroup;
 			children = (
+				CFEEBB612C38418500F3B4F6 /* Model */,
 				CFEEBB002C376CED00F3B4F6 /* Resources */,
 				CFEEBA7B2C37694E00F3B4F6 /* Utilities */,
 				CFEEBA762C37643200F3B4F6 /* Views */,
@@ -98,6 +103,7 @@
 			children = (
 				CFEEBA742C37643200F3B4F6 /* HomeViewController.swift */,
 				CFEEBA752C37643200F3B4F6 /* SelcalViewController.swift */,
+				CFEEBB5F2C38417800F3B4F6 /* SelcalView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -140,6 +146,14 @@
 				CFEEBB4C2C3840D800F3B4F6 /* S.mp3 */,
 			);
 			path = mp3;
+			sourceTree = "<group>";
+		};
+		CFEEBB612C38418500F3B4F6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CFEEBB622C38419500F3B4F6 /* SelcalModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,8 +245,10 @@
 			files = (
 				CFEEBA782C37643200F3B4F6 /* SelcalViewController.swift in Sources */,
 				CFEEBA6A2C3763B800F3B4F6 /* AppDelegate.swift in Sources */,
+				CFEEBB632C38419500F3B4F6 /* SelcalModel.swift in Sources */,
 				CFEEBA6B2C3763B800F3B4F6 /* SceneDelegate.swift in Sources */,
 				CFEEBA7A2C37694B00F3B4F6 /* UI+Styling.swift in Sources */,
+				CFEEBB602C38417800F3B4F6 /* SelcalView.swift in Sources */,
 				CFEEBA772C37643200F3B4F6 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
