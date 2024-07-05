@@ -80,27 +80,42 @@ class SelcalModel {
 
     private func playPair(_ pair: [String]) {
         guard let audioEngine = audioEngine else { return }
-        
-        audioPlayers.forEach { $0.stop() }
+
+        for player in audioPlayers {
+            player.stop()
+            audioEngine.detach(player)
+        }
         audioPlayers.removeAll()
+        
+        var playerNodes: [AVAudioPlayerNode] = []
         
         for letter in pair {
             if let audioFile = getAudioFile(for: letter) {
                 let playerNode = AVAudioPlayerNode()
                 audioEngine.attach(playerNode)
                 audioEngine.connect(playerNode, to: audioEngine.mainMixerNode, format: audioFile.processingFormat)
-                
-                playerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
-                audioPlayers.append(playerNode)
+                playerNodes.append(playerNode)
             }
         }
         
+        // Ensure all nodes are connected before starting the engine
         do {
             try audioEngine.start()
-            audioPlayers.forEach { $0.play() }
         } catch {
             print("Audio Engine couldn't start: \(error)")
         }
+        
+        let startTime = AVAudioTime(hostTime: mach_absolute_time() + 512_000)
+        
+        for (index, letter) in pair.enumerated() {
+            if let audioFile = getAudioFile(for: letter) {
+                let playerNode = playerNodes[index]
+                playerNode.scheduleFile(audioFile, at: startTime, completionHandler: nil)
+            }
+        }
+
+        playerNodes.forEach { $0.play() }
+        audioPlayers = playerNodes
     }
     
     private func getAudioFile(for letter: String) -> AVAudioFile? {
