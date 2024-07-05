@@ -33,7 +33,7 @@ class HomeViewController: UIViewController {
         
         // SELCAL32
         selcal32Button = UIButton(type: .system)
-        configureButton(selcal32Button, title: "SELCAL32", color: .red)
+        configureButton(selcal32Button, title: "SELCAL32", color: .systemRed)
         selcal32Button.isEnabled = false
         selcal32Button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(selcal32Button)

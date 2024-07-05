@@ -29,14 +29,14 @@ class SelcalView: UIView {
     
     let verifyButton: UIButton = {
         let button = UIButton(type: .system)
-        UIButton.configureButton(button, title: "VERIFY", color: .black)
+        UIButton.configureButton(button, title: "Verify", color: .black)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     let playButton: UIButton = {
         let button = UIButton(type: .system)
-        UIButton.configureButton(button, title: "PLAY", color: .systemGray)
+        UIButton.configureButton(button, title: "Play", color: .systemGray)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isEnabled = false
         return button
@@ -46,7 +46,7 @@ class SelcalView: UIView {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.textColor = .red
+        label.textColor = .systemRed
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -60,7 +60,7 @@ class SelcalView: UIView {
     
     let resetButton: UIButton = {
         let button = UIButton(type: .system)
-        UIButton.configureButton(button, title: "Reset", color: .red)
+        UIButton.configureButton(button, title: "Reset", color: .systemRed)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

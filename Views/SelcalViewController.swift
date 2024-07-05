@@ -47,7 +47,7 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
         
         // Disable play button if text changes
         selcalView.playButton.isEnabled = false
-        UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .systemGray)
+        UIButton.configureButton(selcalView.playButton, title: "Play", color: .systemGray)
         
         // Hide verification status label
         selcalView.verificationStatusLabel.text = ""
@@ -73,12 +73,12 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
             selcalView.verificationStatusLabel.text = "✅"
             selcalView.verificationStatusLabel.textColor = .green
             selcalView.playButton.isEnabled = true
-            UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .black)
+            UIButton.configureButton(selcalView.playButton, title: "Play", color: .systemGreen)
         } else {
             selcalView.verificationStatusLabel.text = "❌"
-            selcalView.verificationStatusLabel.textColor = .red
+            selcalView.verificationStatusLabel.textColor = .systemRed
             selcalView.playButton.isEnabled = false
-            UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .systemGray)
+            UIButton.configureButton(selcalView.playButton, title: "Play", color: .systemGray)
         }
         
         // Logging for debugging
@@ -106,9 +106,9 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
     @objc private func resetButtonPressed() {
         selcalView.textField.text = ""
         selcalView.verificationStatusLabel.text = ""
-        selcalView.verificationStatusLabel.textColor = .red
+        selcalView.verificationStatusLabel.textColor = .systemRed
         selcalView.playButton.isEnabled = false
-        UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .systemGray)
+        UIButton.configureButton(selcalView.playButton, title: "Play", color: .systemGray)
     }
     
     private func displayAlert(title: String, message: String) {
