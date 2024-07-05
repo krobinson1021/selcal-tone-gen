@@ -61,7 +61,7 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
     @objc private func verifyButtonPressed() {
         let inputText = selcalView.textField.text ?? ""
         let letters = inputText.replacingOccurrences(of: "-", with: "")
-        if (letters.count == 0) {
+        if letters.count == 0 {
             return
         }
         

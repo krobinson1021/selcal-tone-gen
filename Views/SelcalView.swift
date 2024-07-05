@@ -44,6 +44,7 @@ class SelcalView: UIView {
     
     let verificationStatusLabel: UILabel = {
         let label = UILabel()
+        label.text = ""
         label.textAlignment = .center
         label.textColor = .red
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +63,13 @@ class SelcalView: UIView {
         UIButton.configureButton(button, title: "Reset", color: .red)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    
+    let logoImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "logo.png"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     override init(frame: CGRect) {
@@ -84,15 +92,22 @@ class SelcalView: UIView {
         addSubview(verificationStatusLabel)
         addSubview(backButton)
         addSubview(resetButton)
+        addSubview(logoImageView)
         
         setupConstraints()
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Center the instruction label horizontally and position it at the top
+            // Center the logo image view horizontally and position it at the top
+            logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            logoImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            logoImageView.widthAnchor.constraint(equalToConstant: 200), // Increased width
+            logoImageView.heightAnchor.constraint(equalToConstant: 200), // Increased height
+            
+            // Center the instruction label horizontally and position it below the logo
             instructionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            instructionLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 50),
+            instructionLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 10),
             
             // Center the text field horizontally and position it below the instruction label
             textField.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -114,11 +129,11 @@ class SelcalView: UIView {
             
             // Position the back button at the bottom left
             backButton.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -10),
-            backButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            backButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -40),
             
             // Position the reset button next to the back button
             resetButton.leadingAnchor.constraint(equalTo: centerXAnchor, constant: 10),
-            resetButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            resetButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -40)
         ])
     }
 }
