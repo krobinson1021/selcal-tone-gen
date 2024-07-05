@@ -48,6 +48,9 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
         // Disable play button if text changes
         selcalView.playButton.isEnabled = false
         UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .systemGray)
+        
+        // Hide verification status label
+        selcalView.verificationStatusLabel.text = ""
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -77,6 +80,12 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
             selcalView.playButton.isEnabled = false
             UIButton.configureButton(selcalView.playButton, title: "PLAY", color: .systemGray)
         }
+        
+        // Logging for debugging
+        print("Input Text: \(inputText)")
+        print("Formatted Letters: \(letters)")
+        print("Is Valid: \(isValid)")
+        print("Verification Status Label Frame: \(selcalView.verificationStatusLabel.frame)")
     }
     
     @objc private func playButtonPressed() {
