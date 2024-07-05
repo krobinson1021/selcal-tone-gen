@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class SelcalViewController: UIViewController, UITextFieldDelegate {
 
@@ -19,10 +20,12 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
     
     private let playButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("PLAY", for: .normal)
         UIButton.configureButton(button, title: "PLAY", color: .black)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private var audioPlayers: [AVAudioPlayer] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +39,8 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
         setupConstraints()
         
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        
+        playButton.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -83,5 +88,64 @@ class SelcalViewController: UIViewController, UITextFieldDelegate {
         let allowedCharacterSet = CharacterSet.letters
         let replacementStringCharacterSet = CharacterSet(charactersIn: string)
         return allowedCharacterSet.isSuperset(of: replacementStringCharacterSet)
+    }
+    
+    @objc private func playButtonPressed() {
+        guard let text = textField.text else { return }
+        
+        // Split the text into pairs of characters
+        let pairs = splitIntoPairs(text)
+        
+        // Play the pairs with a delay between each pair
+        playPairs(pairs)
+    }
+    
+    private func splitIntoPairs(_ text: String) -> [[String]] {
+        let characters = Array(text.replacingOccurrences(of: "-", with: ""))
+        var pairs: [[String]] = []
+        
+        for i in stride(from: 0, to: characters.count, by: 2) {
+            let first = String(characters[i])
+            let second = i + 1 < characters.count ? String(characters[i + 1]) : nil
+            pairs.append([first, second].compactMap { $0 })
+        }
+        
+        return pairs
+    }
+    
+    private func playPairs(_ pairs: [[String]]) {
+        let delay = 1.0
+        
+        for (index, pair) in pairs.enumerated() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay * Double(index)) {
+                self.playPair(pair)
+            }
+        }
+    }
+    
+    private func playPair(_ pair: [String]) {
+        audioPlayers.removeAll()
+        
+        for letter in pair {
+            if let player = createAudioPlayer(for: letter) {
+                audioPlayers.append(player)
+                player.play()
+            }
+        }
+    }
+    
+    private func createAudioPlayer(for letter: String) -> AVAudioPlayer? {
+        guard let url = Bundle.main.url(forResource: letter, withExtension: "mp3") else {
+            print("Could not find file: \(letter).mp3")
+            return nil
+        }
+        
+        do {
+            let player = try AVAudioPlayer(contentsOf: url)
+            return player
+        } catch {
+            print("Could not create audio player for \(letter): \(error)")
+            return nil
+        }
     }
 }
