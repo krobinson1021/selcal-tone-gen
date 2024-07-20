@@ -123,8 +123,8 @@ class SelcalModel {
             return audioFile
         }
         
-        guard let url = Bundle.main.url(forResource: letter, withExtension: "mp3") else {
-            print("Could not find file: \(letter).mp3")
+        guard let url = Bundle.main.url(forResource: letter, withExtension: "wav") else {
+            print("Could not find file: \(letter).wav")
             return nil
         }
         
